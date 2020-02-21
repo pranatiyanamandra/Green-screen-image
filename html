@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GREEN SCREEN IMAGE</title>
+  </head>
+  <body>
+  <script src="http://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js">
+    var fgimage=new SimpleImage("http://www.dukelearntoprogram.com/course1/example/drewRobert.png");
+    var bgimage=new SimpleImage("http://www.dukelearntoprogram.com/course1/example/drewRobertDinos.png");
+    var newimage=new SimpleImage(fgimage.getWidth(),fgimage.getHeight());
+    for(var pixel of fgimage.values())
+      {
+        var x=pixel.getGreen();
+        if(x > 230)
+          {
+            var a=pixel.getX();
+            var b=pixel.getY();
+            var bgpixel=bgimage.getPixel(a,b);
+           newimage.setPixel(a,b,bgpixel);
+           }
+        else
+          {
+            newimage.setPixel(pixel.getX(),pixel.getY(),pixel);
+          }
+      }print(newimage);
+    
+    </script>
+  </body>
+</html>
+      
