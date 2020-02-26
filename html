@@ -1,30 +1,79 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>GREEN SCREEN IMAGE</title>
-  </head>
-  <body>
-  <script src="http://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js">
-    var fgimage=new SimpleImage("http://www.dukelearntoprogram.com/course1/example/drewRobert.png");
-    var bgimage=new SimpleImage("http://www.dukelearntoprogram.com/course1/example/drewRobertDinos.png");
-    var newimage=new SimpleImage(fgimage.getWidth(),fgimage.getHeight());
-    for(var pixel of fgimage.values())
+<head>
+<title>GREEN SCREEN IMAGE</title>
+<style>
+canvas
+{
+width:200px;
+height:200px;
+border:1px solid lightgray;
+margin:10px;
+}
+</style>
+
+</head>
+<body>
+<h1>GREEN SCREEN IMAGE</h1>
+<canvas id="d1"></canvas>
+<canvas id="d2"></canvas>
+<canvas id="d3"></canvas>
+<p>
+FOREGROUND IMAGE<input type="file" multiple="false" accept="image/*" id="fg">
+BACKGROUND IMAGE<input type="file" multiple="false" accept="image/*" id="bg">
+<input type="button" value="UPLOAD" onclick="upload()">
+<input type="button" value="GREEN SCREEN" onclick="greenScreen()">
+</p>
+
+ <script src="http://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js">
+    </script>
+    <script>
+	var fgImage=null;
+	var bgImage=null;
+	var newImage=null;
+	function upload()
+	{
+	var imgFile=document.getElementById("fg");
+	fgImage=new SimpleImage(imgFile);
+	var canvas=document.getElementById("d1");
+	fgImage.drawTo(canvas);
+	
+	var imgFile1=document.getElementById("bg");
+	bgImage=new SimpleImage(imgFile1);
+	var canvas1=document.getElementById("d2");
+	bgImage.drawTo(canvas1);
+	}
+	function greenScreen()
+	{
+	if(fg==null||!fgImage.complete())
+	{
+	alert("foreground not loaded");
+	return;
+	}
+	if(bgImage==null||!bgImage.complete())
+	{
+	alert("background not loaded");
+	}
+	newImage=new SimpleImage(fgImage.getWidth(),fgImage.getHeight());
+	
+    for(var pixel of fgImage.values())
       {
         var x=pixel.getGreen();
         if(x > 230)
           {
             var a=pixel.getX();
             var b=pixel.getY();
-            var bgpixel=bgimage.getPixel(a,b);
-           newimage.setPixel(a,b,bgpixel);
+            var bgpixel=bgImage.getPixel(a,b);
+           newImage.setPixel(a,b,bgpixel);
            }
         else
           {
-            newimage.setPixel(pixel.getX(),pixel.getY(),pixel);
+            newImage.setPixel(pixel.getX(),pixel.getY(),pixel);
           }
-      }print(newimage);
-    
-    </script>
-  </body>
-</html>
-      
+      }
+	  var canvasInput=document.getElementById("d3");
+	  newImage.drawTo(canvasInput);
+      }
+	  </script>
+	  </body>
+	  </html>
